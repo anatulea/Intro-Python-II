@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -31,8 +32,6 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-# print(room['foyer'].name)
-print(room['outside'].n_to)
 #
 # Main
 #
@@ -49,3 +48,43 @@ print(room['outside'].n_to)
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+name = input('What is your name? ')
+def start_game(name):
+    print(f'Welcome to the game {name}!')
+start_game(name)
+    
+player_one = Player(name, room['outside'])
+
+playing = True
+while playing:
+    print(f'\nRoom: {player_one.current_room.name}')
+    print(f'Description : {player_one.current_room.description}\n')
+    selection = input('Where do you go next? Use "n", "s", "e", "w", or "q"(quit) to navigate the rooms: ')
+    
+    if selection[0].lower() == 'e':
+        try:
+            player_one.current_room = player_one.current_room.e_to
+        except:
+            print('\nThere is no room to the East')
+    elif selection[0].lower() == 'n':
+        try:
+            player_one.current_room = player_one.current_room.n_to
+        except:
+            print('\nThere is no room to the North')
+    elif selection[0].lower() == 'w':  
+        try:
+            player_one.current_room = player_one.current_room.w_to
+        except:
+            print('\nThere is no room to the West')
+    elif selection[0].lower() == 's':
+        try:
+            player_one.current_room = player_one.current_room.s_to
+        except:
+            print('\nThere is no room to the South')
+    elif selection[0].lower() == 'q':
+        playing = False
+        print('\nThank you for playing!')
+        break
+    else:
+        print('\nPlease enter a valid command!') 
